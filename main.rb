@@ -7,8 +7,8 @@ require 'json'
 require 'oj'
 
 BASE_URL = 'https://api.openai.com/v1'.freeze
-FILE_PATH = 'your_file_path' # example => C:/Users/spwnd/Desktop/Recording0010.mp3'
-TOKEN = 'token' # your generated OpenAI API token goes here
+FILE_PATH = 'your_path_to_mp3' # example => C:/Users/spwnd/Desktop/Recording0010.mp3'
+TOKEN = 'token'
 
 def post(url, body = nil, multipart: false)
   if multipart
@@ -61,6 +61,18 @@ def audio
 end
 
 def execute
+  voice_recorded = false
+
+  while !voice_recorded
+    begin
+      f = File.open('../' + FILE_PATH.split('/').last)
+      f.close
+      voice_recorded = true
+    rescue => e
+      sleep 0.2
+    end
+  end
+
   transcription
   chat
   audio
