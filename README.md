@@ -13,8 +13,11 @@ O projeto utiliza as APIs da OpenAI, então para que você consiga utilizar esse
 Depois de instalar o Ruby, rodar os seguintes comandos:
 
 gem install 'net/http'
+
 gem install 'oj'
+
 gem install 'json'
+
 gem install 'uri'
 
 # Mudanças que serão feitas
