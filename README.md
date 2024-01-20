@@ -1,6 +1,6 @@
 # AI Teacher
 
-Esse projeto tem como objetivo ajudar pessoas a treinar o seu speaking em diversas línguas com a ajuda de uma IA
+Esse projeto tem como objetivo ajudar pessoas a treinarem o seu "speaking" em diversas línguas com a ajuda de uma IA
 
 O projeto utiliza as APIs da OpenAI, então para que você consiga utilizar esse código, você precisa ter uma conta na [OpenAI](https://openai.com/pricing)
 
