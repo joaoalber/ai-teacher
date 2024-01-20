@@ -8,7 +8,7 @@ require 'oj'
 
 BASE_URL = 'https://api.openai.com/v1'.freeze
 FILE_PATH = 'your_file_path' # example => C:/Users/spwnd/Desktop/Recording0010.mp3'
-TOKEN = 'token'
+TOKEN = 'token' # your generated OpenAI API token goes here
 
 def post(url, body = nil, multipart: false)
   if multipart
