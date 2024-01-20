@@ -10,6 +10,13 @@ O projeto utiliza as APIs da OpenAI, então para que você consiga utilizar esse
 - Possuir uma chave de API da OpenAI - https://platform.openai.com/playground
 - Adicionar o caminho do seu áudio em MP3 no código
 
+Depois de instalar o Ruby, rodar os seguintes comandos:
+
+gem install 'net/http'
+gem install 'oj'
+gem install 'json'
+gem install 'uri'
+
 # Mudanças que serão feitas
 
 - Suporte para conversa contínua (histórico)
