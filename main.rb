@@ -10,6 +10,7 @@ BASE_URL = 'https://api.openai.com/v1'.freeze
 
 START_RECORD_FROM_FILE_NUMBER = 1 # ex: recording0001.mp3
 TOKEN = 'your-openai-api-token'
+LANGUAGE = 'en' # you can choose a different language to practice by the abbr, ex: japanese = jp, deutsch = de, spanish = es, etc..
 
 # your voice recordings should be sequential and the pattern must be recording0001, recording0002, etc...
 # also, they must be under the repo path
@@ -23,7 +24,7 @@ end
 def post(url, body = nil, multipart: false)
   if multipart
     file = UploadIO.new(file_path, 'audio/mpeg')
-    request = Net::HTTP::Post::Multipart.new(url.path, 'file' => file, 'model' => 'whisper-1', 'response_format' => 'text', 'language' => 'en')
+    request = Net::HTTP::Post::Multipart.new(url.path, 'file' => file, 'model' => 'whisper-1', 'response_format' => 'text', 'language' => LANGUAGE)
     request['Authorization'] = "Bearer #{TOKEN}"
 
     Net::HTTP.start(url.host, url.port, use_ssl: true) { |http| http.request(request) } 
