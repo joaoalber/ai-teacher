@@ -10,9 +10,9 @@ BASE_URL = 'https://api.openai.com/v1'.freeze
 
 START_RECORD_FROM_FILE_NUMBER = 1 # ex: recording0001.mp3
 TOKEN = 'your-openai-api-token'
-LANGUAGE = 'en' # you can choose a different language to practice by the abbr, ex: japanese = jp, deutsch = de, spanish = es, etc..
+LANGUAGE = 'en' # you can choose a different language to practice by the abbr - https://github.com/openai/whisper/blob/main/whisper/tokenizer.py
 
-# your voice recordings should be sequential and the pattern must be recording0001, recording0002, etc...
+# your voice recordings should be sequential and the pattern must be recording0001.mp3, recording0002.mp3, etc...
 # also, they must be under the repo path
 def file_path
   @file_counter ||= START_RECORD_FROM_FILE_NUMBER
