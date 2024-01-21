@@ -9,16 +9,15 @@ require 'oj'
 BASE_URL = 'https://api.openai.com/v1'.freeze
 
 START_RECORD_FROM_FILE_NUMBER = 1 # ex: recording0001.mp3
-CURRENT_PATH = 'your_current_path' # ex: "C:/Users/spwnd/Desktop/ai-teacher
-TOKEN = 'token' # API token
+TOKEN = 'your-openai-api-token'
 
-# your voice recordings should be sequential, recording0001, recording0002, et... and they
-# must be within the repo path
+# your voice recordings should be sequential and the pattern must be recording0001, recording0002, etc...
+# also, they must be under the repo path
 def file_path
   @file_counter ||= START_RECORD_FROM_FILE_NUMBER
   current_file = "%04d" % @file_counter
 
-  CURRENT_PATH + "/recording#{current_file}.mp3"
+  Dir.pwd + "/recording#{current_file}.mp3"
 end
 
 def post(url, body = nil, multipart: false)
@@ -46,7 +45,7 @@ end
 def chat
   url = URI.parse(BASE_URL + '/chat/completions')
   body = {
-    model: "gpt-3.5-turbo-1106",
+    model: "gpt-4",
     messages: messages,
   }.to_json
 
@@ -57,7 +56,7 @@ def messages
   @messages ||= [
     {
       role: "user",
-      content: "You are a helpful assistant designed to talk English with me, make questions, act as a persona which is an adult with random characteristics."
+      content: "You are a helpful assistant designed to talk with me, make questions, act as a persona which is an adult with random characteristics. Pretend you are not an AI"
     },
   ]
 
