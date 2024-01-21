@@ -7,12 +7,23 @@ require 'json'
 require 'oj'
 
 BASE_URL = 'https://api.openai.com/v1'.freeze
-FILE_PATH = 'your_path_to_mp3' # example => C:/Users/spwnd/Desktop/Recording0010.mp3'
-TOKEN = 'token'
+
+START_RECORD_FROM_FILE_NUMBER = 1 # ex: recording0001.mp3
+CURRENT_PATH = 'your_current_path' # ex: "C:/Users/spwnd/Desktop/ai-teacher
+TOKEN = 'token' # API token
+
+# your voice recordings should be sequential, recording0001, recording0002, et... and they
+# must be within the repo path
+def file_path
+  @file_counter ||= START_RECORD_FROM_FILE_NUMBER
+  current_file = "%04d" % @file_counter
+
+  CURRENT_PATH + "/recording#{current_file}.mp3"
+end
 
 def post(url, body = nil, multipart: false)
   if multipart
-    file = UploadIO.new(FILE_PATH, 'audio/mpeg')
+    file = UploadIO.new(file_path, 'audio/mpeg')
     request = Net::HTTP::Post::Multipart.new(url.path, 'file' => file, 'model' => 'whisper-1', 'response_format' => 'text', 'language' => 'en')
     request['Authorization'] = "Bearer #{TOKEN}"
 
@@ -36,19 +47,21 @@ def chat
   url = URI.parse(BASE_URL + '/chat/completions')
   body = {
     model: "gpt-3.5-turbo-1106",
-    messages: [
-      {
-        role: "user",
-        content: "You are a helpful assistant designed to talk English with me, make questions, act as a normal person."
-      },
-      {
-        role: "user",
-        content: "#{transcription.body}"
-      }
-    ]
+    messages: messages,
   }.to_json
 
   Oj.load(post(url, body).body)
+end
+
+def messages
+  @messages ||= [
+    {
+      role: "user",
+      content: "You are a helpful assistant designed to talk English with me, make questions, act as a persona which is an adult with random characteristics."
+    },
+  ]
+
+  @messages << { role: "user", content: "#{transcription.body}" }
 end
 
 def audio
@@ -65,17 +78,19 @@ def execute
 
   while !voice_recorded
     begin
-      f = File.open('../' + FILE_PATH.split('/').last)
+      f = File.open(file_path.split('/').last)
       f.close
-      voice_recorded = true
+
+      transcription
+      chat
+      audio
+
+      system('start speech.mp3')
+      @file_counter = @file_counter + 1
     rescue => e
       sleep 0.2
     end
   end
-
-  transcription
-  chat
-  audio
 end
 
 execute
